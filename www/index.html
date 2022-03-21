@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"/>
+    <link rel="stylesheet" href="css/index.css"/>
+    <script type="text/javascript" charset="utf-8" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/angularJS.js"></script>
+    <title>Computer Books Platform</title>
+</head>
+
+<body onload="onLoad()">
+<!-- Start of first page: #one -->
+<div data-role="page" id="home" data-url="home" tabindex="0" class="ui-page ui-page-theme-a ui-page-active"
+     style="min-height: 951px;">
+
+    <div data-role="header" data-theme="b">
+        <a href="#set" class="ui-btn ui-shadow ui-corner-all ui-icon-gear ui-btn-icon-notext"></a>
+        <h1>電腦書平台</h1>
+        <script>
+            if (localStorage.hasOwnProperty('email')) {
+                document.write("<a id=\"User_bt\" href=\"#user\" class=\"ui-btn ui-shadow ui-corner-all ui-icon-user ui-btn-icon-notext\"></a>");
+            } else {
+                document.write("<a id=\"SignIn_bt\" href=\"#popupLogin\" data-rel=\"popup\" data-position-to=\"window\" class=\"ui-btn ui-shadow ui-corner-all ui-icon-user ui-btn-icon-notext\"></a>");
+            }
+        </script>
+    </div>
+    <div role="main" class="ui-content">
+                <div id="top_title" style="border-left:20px solid;display: inline-block;padding: 10px;background-color: #565656;"> TOP 10</div>
+                <div id="top10_content" style="text-align: center"></div>
+                <div style="display: none"></div>
+                <div data-role="popup" id="top10_more" data-overlay-theme="a" data-theme="a" data-corners="false" style="min-width: 350px;max-width: 500px">
+                    <a href="#" data-rel="back" class="ui-btn ui-btn-b ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                    <div id="top10_more_content"></div>
+                </div>
+    </div>
+    <div data-role="footer" data-position="fixed" data-theme="b">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#home" data-icon="home"></a></li>
+                <li><a href="#search" data-icon="search"></a></li>
+                <li><a href="#favorite" data-icon="heart"></a></li>
+            </ul>
+        </div>
+    </div>
+    <!-------------------------------------------------< Sign in >-------------------------------------------------->
+    <div data-role="popup" id="popupLogin" data-theme="a" class="ui-corner-all">
+        <form>
+            <div style="padding:10px 10px;">
+                <h3>Please sign in</h3>
+                <label for="email"> Email : </label>
+                <input type="email" name="email" id="email" value="xxx@gmail.com" placeholder="username"
+                       data-theme="a">
+                <label for="passwd"> Password : </label>
+                <input type="password" name="passwd" id="passwd" value="password" placeholder="password" data-theme="a">
+                <p id="alert_signin" style="font-size: 10px;color: red;"></p>
+                <button type="button" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check"
+                        onclick="SignIn()">
+                    Sign in
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!--------------------------------------------------< User>------------------------------------------------>
+<div data-role="page" id="user" data-theme="a" data-url="user">
+    <div data-role="header" data-theme="b">
+        <!--        <a href="#home" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-l ui-btn-icon-notext"></a>-->
+        <h1>search</h1>
+    </div>
+    <div role="main" class="ui-content">
+        <h1>Welcome </h1>
+        <p id="name" style="font: 15px bold"></p>
+        <button onclick="SignOut()">SignOut</button>
+    </div>
+    <div data-role="footer" data-position="fixed" data-theme="b">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#home" data-icon="home"></a></li>
+                <li><a href="#search" data-icon="search"></a></li>
+                <li><a href="#favorite" data-icon="heart"></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--------------------------------------------------< search>------------------------------------------------>
+<div data-role="page" id="search" data-theme="a" data-url="search">
+    <div data-role="header" data-theme="b">
+        <h1>搜尋</h1>
+    </div>
+    <div role="main" class="ui-content">
+        <input type="search" id="search_user" name="search_user" placeholder="Name or ISBN" value=""/>
+        <button onclick="Search()">send</button>
+        <!--        <button id="search_bt" data-textonly="false" data-textvisible="false" data-msgtext="">send</button>-->
+        <div id="search_content"></div>
+        <div id="search_nodata" style='text-align: center;display: none'><p>查無資料</p></div>
+        <div data-role="popup" id="search_more" data-overlay-theme="a" data-theme="a" data-corners="false" style="padding: 10px 25px;">
+            <a href="#" data-rel="back" class="ui-btn ui-btn-b ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                
+            <div id="search_more_content"></div>
+        </div>
+        <div data-role="popup" id="favorite_menu" data-overlay-theme="a" data-theme="a" data-corners="false" style="padding: 25px 0;">
+            <a href="#" data-rel="back" class="ui-btn ui-btn-b ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+            <div id="favorite_menu_bt"></div>
+            <button onclick="alert('尚未完成此功能')" style="color: #696969">新增清單(+)</button>
+        </div>
+
+        <div data-role="popup" id="favorite_alert" data-overlay-theme="a" data-theme="a" data-corners="false" style="padding: 25px 25px;">
+            <a href="#" data-rel="back" class="ui-btn ui-btn-b ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+            <div>你必須先登入才能收藏此書!</div>
+        </div>
+    </div>
+    <div data-role="footer" data-position="fixed" data-theme="b">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#home" data-icon="home"></a></li>
+                <li><a href="#search" data-icon="search"></a></li>
+                <li><a href="#favorite" data-icon="heart"></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--------------------------------------------------< Favorite>------------------------------------------------>
+<div data-role="page" id="favorite" data-theme="a" data-url="favorite">
+    <div data-role="header" data-theme="b">
+        <h1>收藏</h1>
+    </div>
+    <div id="favorite_main" role="main" class="ui-content">
+
+
+    </div>
+    <div data-role="footer" data-position="fixed" data-theme="b">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#home" data-icon="home"></a></li>
+                <li><a href="#search" data-icon="search"></a></li>
+                <li><a href="#favorite" data-icon="heart"></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-------------------------------------------------< Setting >-------------------------------------------------->
+<div data-role="page" id="set" data-theme="a" data-url="set">
+    <div data-role="header" data-theme="b">
+        <a href="#home" class="ui-btn ui-shadow ui-corner-all ui-icon-carat-l ui-btn-icon-notext"></a>
+        <h1>設定</h1>
+    </div>
+    <div role="main" class="ui-content">
+        <button onclick="sessionStorage.clear()">清除緩存</button>
+        <button>About</button>
+    </div>
+
+
+</div>
+</body>
+<script src="js/favorite.js"></script>
+</html>
+
