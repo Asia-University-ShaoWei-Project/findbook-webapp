@@ -27,7 +27,7 @@ function onLoad() {
   if (localStorage.hasOwnProperty("email")) {
     // document.getElementById("name").innerText = localStorage.name;
   }
-  Top10();
+  get_book_bestseller_api();
   favorite_class();
 }
 
@@ -343,7 +343,8 @@ function Search_more(index, isbn) {
   });
 }
 
-function Top10() {
+function get_book_bestseller_api() {
+  // function Top10() {
   $.mobile.loading("show", {
     text: "",
     textVisible: false,
@@ -353,7 +354,7 @@ function Top10() {
   $.ajax({
     datatype: "JSON",
     type: "GET",
-    url: "./php/Top10.php",
+    url: "./php/book_bestseller.php",
     data: {},
     crossDomain: true,
     cache: false,
